@@ -862,7 +862,7 @@ def Ping():
             if models.IP.objects.filter(host=ip):  # 将情况保存在ip表中
                 models.IP.objects.filter(host=ip).update(
                     status='0',  # 网站ping不同的情况
-                    ms='0'
+                    ms=-1
                 )
                 list0.append(ip)
                 count_False += 1
@@ -902,9 +902,9 @@ def Ping():
 
             if models.IP.objects.filter(host=ip):
                 # print('网站能ping通')--------------------------主机在运行
-                p = re.compile('\d+ms')
+                p = re.compile('/\d+.\d+/')
                 a = p.findall(res)[0]  # a 保存的是ping的延迟大小
-                pp = re.compile('\d+')  # 只匹配数字
+                pp = re.compile('\d+.\d+')  # 匹配出延迟  Windows和Ubuntu的结果不同
                 aa = pp.findall(a)[0]  # 取出延迟   获取网站的延迟
                 models.IP.objects.filter(host=ip).update(
                     status='1',
