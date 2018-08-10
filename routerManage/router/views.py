@@ -853,7 +853,7 @@ def Ping():
         int_IP4 = int(IP4)
         int_IP4 += 1
         IP4 = str(int_IP4)
-        op = os.popen('ping -n 1 -w 1 %s' % ip)  # 让系统去执行ping命令-----------在ubuntu环境下使用ping -c 1 -w 1
+        op = os.popen('ping -c 1 -w 1 %s' % ip)  # 让系统去执行ping命令-----------在ubuntu环境下使用ping -c 1 -w 1
         res = op.read()
         p1 = re.compile('\d+%')
         a1 = str(p1.findall(res)[0])  # 根据a1的值来判断网站是不是可以访问，100%表示不可以访问，
@@ -862,7 +862,7 @@ def Ping():
             if models.IP.objects.filter(host=ip):  # 将情况保存在ip表中
                 models.IP.objects.filter(host=ip).update(
                     status='0',  # 网站ping不同的情况
-                    ms=-1
+                    ms='0'
                 )
                 list0.append(ip)
                 count_False += 1
@@ -871,7 +871,7 @@ def Ping():
                 if models.Error.objects.filter(host=ip):  # 如果error表中已经有数据就不重复添加
                     pass
                 else:
-                    _op = os.popen('ping -n 1 -w 1 %s' % ip)
+                    _op = os.popen('ping -c 1 -w 1 %s' % ip)
                     _res = _op.read()
                     _p1 = re.compile('\d+%')
                     _a1 = str(_p1.findall(_res)[0])  # 根据a1的值来判断网站是不是可以访问，100%表示不可以访问，
@@ -902,9 +902,9 @@ def Ping():
 
             if models.IP.objects.filter(host=ip):
                 # print('网站能ping通')--------------------------主机在运行
-                p = re.compile('/\d+.\d+/')
+                p = re.compile('\d+ms')
                 a = p.findall(res)[0]  # a 保存的是ping的延迟大小
-                pp = re.compile('\d+.\d+')  # 匹配出延迟  Windows和Ubuntu的结果不同
+                pp = re.compile('\d+')  # 只匹配数字
                 aa = pp.findall(a)[0]  # 取出延迟   获取网站的延迟
                 models.IP.objects.filter(host=ip).update(
                     status='1',
@@ -929,7 +929,7 @@ def Ping():
                         email_body = str(ip) + '未分配，在运行'
                         # email_to = ['1027908281@qq.com','1968618449@qq.com','363748101@qq.com','2915681468@qq.com']
                         # 调用发邮件函数
-                        _op = os.popen('ping -n 1 -w 1 %s' % ip)
+                        _op = os.popen('ping -c 1 -w 1 %s' % ip)
                         _res = _op.read()
                         _p1 = re.compile('\d+%')
                         _a1 = str(_p1.findall(_res)[0])  # 根据a1的值来判断网站是不是可以访问，100%表示不可以访问，
