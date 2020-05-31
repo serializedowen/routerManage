@@ -70,9 +70,9 @@ MIDDLEWARE = [
 #跨域增加忽略
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    '*'
-)
+CORS_ORIGIN_WHITELIST = [
+    "http://127.0.0.1:8080"
+]
 
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -139,7 +139,7 @@ DATABASES = {
         'NAME': 'router_db',
         'USER':'root',
         'PASSWORD':'2211smm..',
-        'HOST':'127.0.0.1',
+        'HOST':'192.168.230.25',
         'POST':'3306'
     }
 }

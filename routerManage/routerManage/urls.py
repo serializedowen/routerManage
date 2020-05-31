@@ -42,7 +42,11 @@ urlpatterns = [
     url(r'^monitor$',views.monitor), #监控接口
     url(r'^getWorkData',views.getWorkData), #监控数据
     # url(r'^getAllDataByVlanId$',views.get_all_data_by_vlan_id), #根据vlanid查找所有数据
-
-
+    url(r'^user/list$', views.user_list),  # 用户列表
+    url(r'^user/typechange$', views.user_typechange),  # 用户类型更改
+    url(r'^user/del', views.user_del),  # 删除ip白名单
+    url(r'^ip/info', views.ip_info),  # 获取ip白名单
+    url(r'^ip/add', views.ip_add),  # 添加ip白名单
+    url(r'^ip/del', views.ip_del),  # 删除ip白名单
 
 ]

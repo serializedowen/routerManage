@@ -1082,3 +1082,117 @@ def insert(val, row):
         times=tim
     )
     return 'ok'
+
+
+
+def user_list(res):
+    user_result = list(models.User.objects.all().values())
+    print(user_result)
+    re =json.dumps({
+        'status':True,
+        'msg':'',
+        'data': user_result
+    })
+    return  HttpResponse(re,content_type='application/json')
+
+
+def user_typechange(req):
+    try:
+        user_id = req.GET.get('user_id', None)
+        value = req.GET.get('value', None)
+        models.User.objects.filter(user_id=user_id).update(user_type=value)
+
+        re =json.dumps({
+            'status':True,
+            'msg':'',
+            'data': ''
+        })
+        return  HttpResponse(re,content_type='application/json')
+
+    except:
+        re =json.dumps({
+            'status':False,
+            'msg':'',
+            'data': ''
+        })
+        return  HttpResponse(re,content_type='application/json')
+
+
+def user_del(req):
+    try:
+        user_id = req.GET.get('user_id', None)
+        models.User.objects.filter(user_id=user_id).delete()
+
+        re = json.dumps({
+            'status': True,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+    except:
+        re = json.dumps({
+            'status': False,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+
+
+def ip_info(req):
+    try:
+        res = list(models.IpWhiteList.objects.values("ip_id", "host","des"))
+        print(res)
+        re = json.dumps({
+            'status': True,
+            'msg': '',
+            'data': res
+        })
+        return HttpResponse(re, content_type='application/json')
+    except Exception as e:
+        print(e)
+        re = json.dumps({
+            'status': False,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+
+
+def ip_add(request):
+    try:
+        models.IpWhiteList.objects.create(
+            host=request.POST.get('host', None),
+            des=request.POST.get('des', None),
+        )
+        re = json.dumps({
+            'status': True,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+    except:
+        re = json.dumps({
+            'status': False,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+
+def ip_del(request):
+    try:
+        ip_id = request.GET.get('ip_id', None)
+
+        models.IpWhiteList.objects.filter(ip_id=ip_id).delete()
+        re = json.dumps({
+            'status': True,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')
+    except:
+        re = json.dumps({
+            'status': False,
+            'msg': '',
+            'data': ''
+        })
+        return HttpResponse(re, content_type='application/json')

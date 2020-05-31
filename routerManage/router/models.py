@@ -78,6 +78,16 @@ class Error(models.Model):
     def __str__(self):
         return self.host
 
+class IpWhiteList(models.Model):
+    ip_id = models.AutoField(primary_key=True)
+    host = models.CharField(max_length=20,null=False) # 主机ip
+    des = models.CharField(max_length=200,null=True)  # 备注信息
+    ready_a = models.TextField(null=True)
+    ready_b = models.TextField(null=True)
+    ready_c = models.TextField(null=True)
+
+    def __str__(self):
+        return self.host
 
 
 
